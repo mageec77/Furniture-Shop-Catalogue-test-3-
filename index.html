@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LuxeLiving | Premium Furniture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FDFCF0;
+            --ink: #1A1A1A;
+            --beige: #EAE7DE;
+            --accent: #C5A059;
+            --f-serif: 'Cormorant Garamond', serif;
+            --f-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: var(--f-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--f-serif);
+            font-weight: 400;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--f-serif);
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--ink);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)), url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
+            color: white;
+            padding: 0 5%;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            background: var(--ink);
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            border: 1px solid var(--ink);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--ink);
+        }
+
+        .hero .btn {
+            background: white;
+            color: var(--ink);
+            border-color: white;
+        }
+
+        .hero .btn:hover {
+            background: transparent;
+            color: white;
+        }
+
+        /* Categories */
+        .categories {
+            padding: 5rem 5%;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--ink);
+            background: transparent;
+            cursor: pointer;
+            font-family: var(--f-sans);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--ink);
+            color: white;
+        }
+
+        /* Products Grid */
+        .products {
+            padding: 0 5% 5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .product-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .img-container {
+            width: 100%;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: var(--beige);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .product-card:hover .img-container img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-family: var(--f-serif);
+        }
+
+        .product-price {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* Consultation Form */
+        .consultation {
+            background-color: var(--beige);
+            padding: 8rem 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .consultation {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        .consult-text h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .consult-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .consult-form input, .consult-form textarea {
+            padding: 1rem;
+            border: none;
+            border-bottom: 1px solid var(--ink);
+            background: transparent;
+            font-family: var(--f-sans);
+            outline: none;
+        }
+
+        /* Gallery */
+        .gallery {
+            padding: 5rem 0;
+        }
+
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .gallery-item {
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter 0.3s;
+        }
+
+        .gallery-item:hover img {
+            filter: brightness(0.7);
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 5%;
+            background: var(--ink);
+            color: white;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--f-serif);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Image Zoom Modal (Simple) */
+        #zoom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        #zoom-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">LuxeLiving</div>
+        <div class="nav-links">
+            <a href="#products">Collection</a>
+            <a href="#consultation">Consultation</a>
+            <a href="#gallery">Gallery</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Premium Furniture</h1>
+        <p>Curated luxury pieces designed to transform your living space into a sanctuary of elegance and comfort.</p>
+        <a href="#products" class="btn">Explore Collection</a>
+    </section>
+
+    <section class="categories" id="categories">
+        <button class="cat-btn active" onclick="filterProducts('all')">All</button>
+        <button class="cat-btn" onclick="filterProducts('sofas')">Sofas</button>
+        <button class="cat-btn" onclick="filterProducts('tables')">Tables</button>
+        <button class="cat-btn" onclick="filterProducts('beds')">Beds</button>
+    </section>
+
+    <section class="products" id="products">
+        <!-- Products will be injected by JS -->
+    </section>
+
+    <section class="consultation" id="consultation">
+        <div class="consult-text">
+            <h2>Book a Consultation</h2>
+            <p>Our interior designers are ready to help you create your dream home. Schedule a private session at our showroom or online.</p>
+        </div>
+        <form class="consult-form" onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly.');">
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <textarea placeholder="Tell us about your project" rows="4"></textarea>
+            <button type="submit" class="btn">Submit Request</button>
+        </form>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <div class="gallery-title">
+            <h2>Instagram Gallery</h2>
+            <p>@luxeliving_interiors</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800" alt="Gallery 1" referrerPolicy="no-referrer"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=800" alt="Gallery 2" referrerPolicy="no-referrer"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1505691938895-1758d7eaa511?auto=format&fit=crop&q=80&w=800" alt="Gallery 3" referrerPolicy="no-referrer"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=800" alt="Gallery 4" referrerPolicy="no-referrer"></div>
+        </div>
+    </section>
+
+    <footer>
+        <span class="footer-logo">LuxeLiving</span>
+        <p>&copy; 2026 LuxeLiving Furniture. All rights reserved.</p>
+    </footer>
+
+    <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="currentColor">
+            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.733 5.476 2.016 7.788l-2.016 7.212 7.388-1.938c2.191 1.191 4.704 1.863 7.375 1.863 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.45 0-4.742-0.633-6.742-1.742l-0.483-0.267-4.383 1.15 1.175-4.208-0.292-0.467c-1.258-2.008-1.983-4.383-1.983-6.917 0-7.358 5.975-13.333 13.333-13.333s13.333 5.975 13.333 13.333-5.975 13.333-13.333 13.333zM22.917 19.167c-0.383-0.192-2.258-1.117-2.608-1.242s-0.608-0.192-0.858 0.192c-0.25 0.383-0.975 1.242-1.192 1.492s-0.433 0.275-0.817 0.083c-0.383-0.192-1.617-0.6-3.075-1.908-1.133-1.017-1.9-2.267-2.125-2.65s-0.025-0.592 0.167-0.783c0.175-0.175 0.383-0.45 0.575-0.675s0.258-0.383 0.383-0.633c0.125-0.25 0.067-0.467-0.033-0.658s-0.858-2.075-1.175-2.842c-0.308-0.75-0.625-0.65-0.858-0.658s-0.475-0.008-0.733-0.008c-0.25 0-0.658 0.092-1 0.467s-1.308 1.283-1.308 3.125c0 1.842 1.342 3.617 1.525 3.867s2.642 4.033 6.4 5.65c0.892 0.383 1.592 0.617 2.133 0.792 0.892 0.283 1.708 0.242 2.35 0.15 0.717-0.1 2.258-0.925 2.575-1.817s0.317-1.658 0.225-1.817c-0.092-0.158-0.342-0.25-0.725-0.442z"></path>
+        </svg>
+    </a>
+
+    <div id="zoom-modal" onclick="this.style.display='none'">
+        <img src="" alt="Zoomed view">
+    </div>
+
+    <script>
+        const productsData = [
+            {
+                id: 1,
+                name: "Velvet Cloud Sofa",
+                price: "$2,499",
+                category: "sofas",
+                desc: "Plush velvet upholstery with deep seating for ultimate relaxation.",
+                img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800"
+            },
+            {
+                id: 2,
+                name: "Oak Minimalist Table",
+                price: "$1,200",
+                category: "tables",
+                desc: "Solid white oak with a natural matte finish and tapered legs.",
+                img: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800"
+            },
+            {
+                id: 3,
+                name: "Serene Platform Bed",
+                price: "$3,100",
+                category: "beds",
+                desc: "Low-profile design with an upholstered headboard in linen.",
+                img: "https://images.unsplash.com/photo-1505691938895-1758d7eaa511?auto=format&fit=crop&q=80&w=800"
+            },
+            {
+                id: 4,
+                name: "Marble Coffee Table",
+                price: "$850",
+                category: "tables",
+                desc: "Italian Carrara marble top with a brushed gold base.",
+                img: "https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&q=80&w=800"
+            },
+            {
+                id: 5,
+                name: "Leather Lounge Chair",
+                price: "$1,800",
+                category: "sofas",
+                desc: "Top-grain cognac leather with an ergonomic walnut frame.",
+                img: "https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&q=80&w=800"
+            },
+            {
+                id: 6,
+                name: "Floating Nightstand",
+                price: "$450",
+                category: "beds",
+                desc: "Wall-mounted walnut drawer with integrated cable management.",
+                img: "https://images.unsplash.com/photo-1532372576044-ddc5459fbc47?auto=format&fit=crop&q=80&w=800"
+            }
+        ];
+
+        function renderProducts(filter = 'all') {
+            const container = document.getElementById('products');
+            container.innerHTML = '';
+            
+            const filtered = filter === 'all' ? productsData : productsData.filter(p => p.category === filter);
+            
+            filtered.forEach((p, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="img-container" onclick="zoomImage('${p.img}')">
+                        <img src="${p.img}" alt="${p.name}" referrerPolicy="no-referrer">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${p.name}</h3>
+                        <span class="product-price">${p.price}</span>
+                    </div>
+                    <p class="product-desc">${p.desc}</p>
+                `;
+                container.appendChild(card);
+                
+                // Trigger animation
+                setTimeout(() => card.classList.add('visible'), index * 100);
+            });
+        }
+
+        function filterProducts(category) {
+            // Update buttons
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.innerText.toLowerCase() === category) btn.classList.add('active');
+                if(category === 'all' && btn.innerText === 'All') btn.classList.add('active');
+            });
+            
+            renderProducts(category);
+        }
+
+        function zoomImage(src) {
+            const modal = document.getElementById('zoom-modal');
+            const img = modal.querySelector('img');
+            img.src = src;
+            modal.style.display = 'flex';
+        }
+
+        // Initial render
+        window.onload = () => renderProducts();
+
+        // Scroll reveal animation for cards
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 100) {
+                    card.classList.add('visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
